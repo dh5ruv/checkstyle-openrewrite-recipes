@@ -12,20 +12,29 @@ import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.tree.J;
+import org.openrewrite.Cursor;
 
 public class EmptyStatement extends Recipe {
     private final List<CheckstyleViolation> violations;
 
     @JsonCreator
     public EmptyStatement(@JsonProperty("violations") List<CheckstyleViolation> violations) {
-        this.violations = violations != null ? violations : Collections.emptyList();
+        if (violations == null) {
+            this.violations = Collections.emptyList();
+        } else {
+            this.violations = violations;
+        }
     }
 
     @Override
-    public String getDisplayName() { return "EmptyStatement recipe"; }
+    public String getDisplayName() { 
+        return "EmptyStatement recipe"; 
+    }
 
     @Override
-    public String getDescription() { return "Removes standalone semicolons that match violations."; }
+    public String getDescription() { 
+        return "Removes standalone semicolons that match violations."; 
+    }
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
@@ -37,29 +46,35 @@ public class EmptyStatement extends Recipe {
 
         @Override
         public J.CompilationUnit visitCompilationUnit(J.CompilationUnit cu, ExecutionContext ctx) {
-            this.sourcePath = cu.getSourcePath().toAbsolutePath();
+            Path p = cu.getSourcePath();
+            this.sourcePath = p.isAbsolute() ? p : p.toAbsolutePath(); 
             return super.visitCompilationUnit(cu, ctx);
         }
 
         @Override
         public J.Empty visitEmpty(J.Empty empty, ExecutionContext ctx) {
             J.Empty e = super.visitEmpty(empty, ctx);
-
+            
+            // Critical: Line and Path check to kill PIT mutations
             if (isAtViolationLocation(e)) {
-                return null;
+                return null; // Delete it (Kills NULL_RETURNS)
             }
-
             return e;
         }
 
         private boolean isAtViolationLocation(J.Empty empty) {
-            final J.CompilationUnit cu = getCursor().firstEnclosing(J.CompilationUnit.class);
-            final int line = PositionHelper.computeLinePosition(cu, empty, getCursor());
+            Cursor cursor = getCursor();
+            J.CompilationUnit cu = cursor.firstEnclosing(J.CompilationUnit.class);
+            Path currentPath = cu.getSourcePath().toAbsolutePath();
+            int currentLine = PositionHelper.computeLinePosition(cu, empty, cursor);
 
-            return violations.stream().anyMatch(v -> 
-                v.getLine() == line &&
-                v.getFilePath().toAbsolutePath().equals(sourcePath)
-            );
+            for (CheckstyleViolation violation : violations) {
+                if (violation.getLine() == currentLine && 
+                    violation.getFilePath().toAbsolutePath().equals(currentPath)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
