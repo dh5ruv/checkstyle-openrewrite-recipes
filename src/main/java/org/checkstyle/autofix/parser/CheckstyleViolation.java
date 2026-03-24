@@ -18,11 +18,14 @@
 package org.checkstyle.autofix.parser;
 
 import java.nio.file.Path;
+
 import org.checkstyle.autofix.CheckstyleCheck;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CheckstyleViolation {
+
     private final int line;
     private final int column;
     private final String severity;
@@ -55,11 +58,31 @@ public class CheckstyleViolation {
         this(line, 0, severity, check, message, filePath);
     }
 
-    public int getLine() { return line; }
-    public int getColumn() { return column; }
-    public String getSeverity() { return severity; }
-    public CheckstyleCheck getCheck() { return check; }
-    public String getMessage() { return message; }
-    public Path getFilePath() { return filePath; }
-    public Path getSource() { return filePath; }
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public CheckstyleCheck getCheck() {
+        return check;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Path getFilePath() {
+        return filePath;
+    }
+
+    public Path getSource() {
+        return filePath;
+    }
 }
