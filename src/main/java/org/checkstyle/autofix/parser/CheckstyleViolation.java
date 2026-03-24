@@ -18,67 +18,48 @@
 package org.checkstyle.autofix.parser;
 
 import java.nio.file.Path;
-
 import org.checkstyle.autofix.CheckstyleCheck;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class CheckstyleViolation {
-
+public class CheckstyleViolation {
     private final int line;
     private final int column;
     private final String severity;
-    private final CheckstyleCheck source;
+    private final CheckstyleCheck check;
     private final String message;
     private final Path filePath;
 
-    @com.fasterxml.jackson.annotation.JsonCreator
+    @JsonCreator
     public CheckstyleViolation(
-            @com.fasterxml.jackson.annotation.JsonProperty("line")
-            final int line,
-            @com.fasterxml.jackson.annotation.JsonProperty("column")
-            final int column,
-            @com.fasterxml.jackson.annotation.JsonProperty("severity")
-            final String severity,
-            @com.fasterxml.jackson.annotation.JsonProperty("source")
-            final CheckstyleCheck source,
-            @com.fasterxml.jackson.annotation.JsonProperty("message")
-            final String message,
-            @com.fasterxml.jackson.annotation.JsonProperty("filePath")
-            final Path filePath) {
+            @JsonProperty("line") final int line,
+            @JsonProperty("column") final int column,
+            @JsonProperty("severity") final String severity,
+            @JsonProperty("check") final CheckstyleCheck check,
+            @JsonProperty("message") final String message,
+            @JsonProperty("filePath") final Path filePath) {
         this.line = line;
         this.column = column;
         this.severity = severity;
-        this.source = source;
+        this.check = check;
         this.message = message;
         this.filePath = filePath;
     }
 
-    public CheckstyleViolation(final int line, final String severity,
-                               final CheckstyleCheck source, final String message,
-                               final Path filePath) {
-        this(line, -1, severity, source, message, filePath);
+    public CheckstyleViolation(
+            final int line,
+            final String severity,
+            final CheckstyleCheck check,
+            final String message,
+            final Path filePath) {
+        this(line, 0, severity, check, message, filePath);
     }
 
-    public Integer getLine() {
-        return line;
-    }
-
-    public Integer getColumn() {
-        return column;
-    }
-
-    public CheckstyleCheck getSource() {
-        return source;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Path getFilePath() {
-        return filePath;
-    }
-
-    public String getSeverity() {
-        return severity;
-    }
+    public int getLine() { return line; }
+    public int getColumn() { return column; }
+    public String getSeverity() { return severity; }
+    public CheckstyleCheck getCheck() { return check; }
+    public String getMessage() { return message; }
+    public Path getFilePath() { return filePath; }
+    public Path getSource() { return filePath; }
 }
