@@ -1,0 +1,24 @@
+--- src/test/resources/org/checkstyle/autofix/recipe/arraytypestyle/javastyle/InputJavaStyle.java
++++ src/test/resources/org/checkstyle/autofix/recipe/arraytypestyle/javastyle/OutputJavaStyle.java
+@@ -7,17 +7,17 @@
+ */
+ package org.checkstyle.autofix.recipe.arraytypestyle.javastyle;
+ 
+-public class InputJavaStyle {
++public class OutputJavaStyle {
+ 
+     int[] nums;
+ 
+-    String strings[];                    // violation 'Array brackets at illegal position.'
++    String[] strings;
+ 
+     char[] toCharArray() {
+         return null;
+     }
+ 
+-    void method(String args[]) {         // violation 'Array brackets at illegal position.'
++    void method(String[] args) {
+     }
+ 
+ }
+\ No newline at end of file

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum CheckFullName {
+    ARRAY_TYPE_STYLE("com.puppycrawl.tools.checkstyle.checks.ArrayTypeStyleCheck"),
     EMPTY_STATEMENT("com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheck"),
     FINAL_CLASS("com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck"),
     FINAL_LOCAL_VARIABLE("com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"),
