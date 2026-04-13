@@ -20,12 +20,12 @@ package org.checkstyle.autofix.recipe;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import org.checkstyle.autofix.PositionHelper;
 import org.checkstyle.autofix.parser.CheckstyleViolation;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
+import org.openrewrite.Tree;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.tree.J;
@@ -94,7 +94,7 @@ public class ArrayTypeStyle extends Recipe {
                 TypeTree newType = visited.getTypeExpression();
                 for (int idx = 0; idx < dimCount; idx++) {
                     newType = new J.ArrayType(
-                            UUID.randomUUID(),
+                            Tree.randomId(),
                             Space.EMPTY,
                             Markers.EMPTY,
                             newType,
