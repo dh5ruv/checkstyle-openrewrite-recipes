@@ -1,0 +1,11 @@
+--- src/test/resources/org/checkstyle/autofix/recipe/arraytypestyle/noviolation/InputNoViolation.java
++++ src/test/resources/org/checkstyle/autofix/recipe/arraytypestyle/noviolation/OutputNoViolation.java
+@@ -7,7 +7,7 @@
+ */
+ package org.checkstyle.autofix.recipe.arraytypestyle.noviolation;
+ 
+-public class InputNoViolation {
++public class OutputNoViolation {
+ 
+     int[] nums;
+ 

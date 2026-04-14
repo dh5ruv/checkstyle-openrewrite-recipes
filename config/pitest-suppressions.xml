@@ -1251,4 +1251,5 @@
     <description>removed conditional - replaced equality check with true</description>
     <lineContent>while (attributes.hasNext()) {</lineContent>
   </mutation>
+
 </suppressedMutations>

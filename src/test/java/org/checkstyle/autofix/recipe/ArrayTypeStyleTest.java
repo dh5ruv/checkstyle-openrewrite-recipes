@@ -17,7 +17,12 @@
 
 package org.checkstyle.autofix.recipe;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
 import org.checkstyle.autofix.parser.ReportParser;
+import org.junit.jupiter.api.Test;
 
 public class ArrayTypeStyleTest extends AbstractRecipeTestSupport {
 
@@ -31,4 +36,18 @@ public class ArrayTypeStyleTest extends AbstractRecipeTestSupport {
         verify(parser, "JavaStyle");
     }
 
+    @RecipeTest
+    void noViolation(ReportParser parser) throws Exception {
+        verify(parser, "NoViolation");
+    }
+
+    @Test
+    void testGetDisplayName() {
+        final ArrayTypeStyle recipe = new ArrayTypeStyle(List.of());
+        assertEquals("ArrayTypeStyle recipe", recipe.getDisplayName());
+        assertEquals(
+                "Converts C-style array type declarations to Java-style. "
+                        + "For example, converts 'String args[]' to 'String[] args'.",
+                recipe.getDescription());
+    }
 }
